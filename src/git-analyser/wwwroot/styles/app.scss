@@ -1,0 +1,36 @@
+﻿/*svg {
+    border: 2px solid black;
+    border-radius: 10px;
+    border-color: #eee;
+    padding: 10px;
+}*/
+
+p {
+    color: #808080;
+}
+
+.bar {
+
+    &__rect {
+        width: 30px;
+        margin-right: 5px;
+        fill: #019acb;
+        shape-rendering: crispEdges;
+    }
+
+    &__selected {
+        width: 30px;
+        margin-right: 5px;
+        fill: #50b5d5;
+        shape-rendering: crispEdges;
+        stroke-width: 2px;
+        stroke: #019acb;
+    }
+
+    &__text {
+        font-family: sans-serif;
+        font-size: 16px;
+        fill: black;
+        font-weight: bold;
+    }
+}
