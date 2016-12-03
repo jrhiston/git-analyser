@@ -9,59 +9,7 @@ function createSVG(selector) {
         .attr('height', h);
 }
 
-function pieChart(selector, getData, dataItemSelector) {
-    var width = 960,
-        height = 500,
-        radius = Math.min(width, height) / 2;
-
-    var color = d3.scaleOrdinal()
-        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-    var arc = d3.arc()
-        .outerRadius(radius - 10)
-        .innerRadius(0);
-
-    var labelArc = d3.arc()
-        .outerRadius(radius - 40)
-        .innerRadius(radius - 40);
-
-    var pie = d3.pie()
-        .sort(null)
-        .value(function (d) { return d[dataItemSelector]; });
-
-    var svg = d3.select(selector).append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-    var g = svg.selectAll(".arc")
-        .data(pie(getData().slice(0, 20)))
-        .enter()
-        .append("g")
-        .attr("class", "arc");
-
-    g.append("path")
-        .attr("d", arc)
-        .style("fill", function (d) { return color(d.data['entity']); });
-
-    g.append("text")
-        .attr("transform", function (d) { return "translate(" + labelArc.centroid(d) + ")"; })
-        .attr("dy", ".35em")
-        .text(function (d) {
-            if (d.data['entity']) {
-                var i = d.data['entity'].lastIndexOf("/");
-                return d.data['entity'].slice(i + 1) + ", " + d.data[dataItemSelector];
-            }
-        });
-
-    function type(d) {
-        d[dataItemSelector] = +d[dataItemSelector];
-        return d;
-    }
-}
-
-function bubbleChart(selector, getData, dataItemSelector) {
+export function bubbleChart(selector, getData, dataItemSelector) {
     var svg = createSVG(selector);
 
     var format = d3.format(',d');
@@ -112,44 +60,4 @@ function bubbleChart(selector, getData, dataItemSelector) {
 
     node.append("title")
         .text(function (d) { return d.id + "\n" + format(d.value); });
-} 
-
-function printBars(selector, getData, dataItemSelector) {
-    d3.select(selector)
-        .selectAll("div")
-        .data(getData())
-        .enter()
-        .append("div")
-        .attr("class", "bar")
-        .style("height", function (d) {
-            return (d[dataItemSelector] * 5) + "px";
-        })
-        .style("margin-right", "10px");
 }
-
-function printStraightLineCircles(selector, getData, dataItemSelector) {
-    var svg = createSVG();
-
-    var circles = svg.selectAll('circle')
-        .data(getData())
-        .enter()
-        .append('circle');
-
-    circles.attr('cx', function (d, i) {
-        return (i * 50) + 25;
-    })
-        .attr('cy', h / 2)
-        .attr('r', function (d) {
-            return d[dataItemSelector];
-        })
-        .attr("fill", "yellow")
-        .attr("stroke", "orange")
-        .attr("stroke-width", function (d) {
-            return d[dataItemSelector] / 2;
-        });
-}
-
-exports.printBars = printBars;
-exports.printStraightLineCircles = printStraightLineCircles;
-exports.bubbleChart = bubbleChart;
-exports.pieChart = pieChart;

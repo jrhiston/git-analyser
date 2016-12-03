@@ -10,11 +10,15 @@ p {
 }
 
 .bar {
-
     &__rect {
         width: 30px;
         margin-right: 5px;
         fill: #019acb;
+        shape-rendering: crispEdges;
+    }
+
+    &__stacked {
+        width: 10px;
         shape-rendering: crispEdges;
     }
 
@@ -29,8 +33,7 @@ p {
 
     &__text {
         font-family: sans-serif;
-        font-size: 16px;
+        font-size: 14px;
         fill: black;
-        font-weight: bold;
     }
 }
