@@ -1,0 +1,92 @@
+*****************************
+** GENERATING GIT LOG FILE **
+*****************************
+
+This needs to be ran in the git directory.
+
+git log --all --numstat --date=short --pretty=format:'--%h--%ad--%aN' --no-renames > [OUTPUTFILE]
+
+add --since='yyyy-MM-dd' if needed to be since a particular date.
+
+^[/\\\\]?(?:.+[/\\\\]+?)?[/\\\\]? - removes the paths from the filenames for reporting purposes.
+
+*************
+** SUMMARY **
+*************
+
+When starting out, I find it useful to get an overview of the mined data. With the summary analysis, Code Maat produces such an overview:
+
+java -jar code-maat-1.0-SNAPSHOT-standalone.jar -l [GitLogFile] -c git2 -a summary > [OutputFile]
+
+****************************
+** ORGANISATIONAL METRICS **
+****************************
+
+By default, Code Maat runs an analysis on the number of authors per module. The authors analysis is based on the idea that the more developers working on a module, the larger the communication challenges. The analysis is invoked with the following command:
+
+java -jar code-maat-1.0-SNAPSHOT-standalone.jar -l [GitLogFile] -c git2 > [OutputFile]
+
+In example above, the first column gives us the name of module, the second the total number of distinct authors that have made commits on that module, and the third column gives us the total number of revisions of the module. Taken together, these metrics serve as predictors of defects and quality issues.
+
+**********************
+** LOGICAL COUPLING **
+**********************
+
+Logical coupling refers to modules that tend to change together. Modules that are logically coupled have a hidden, implicit dependency between them such that a change to one of them leads to a predictable change in the coupled module. To analyze the logical coupling in a system, invoke Code Maat with the following arguments:
+
+java -jar code-maat-1.0-SNAPSHOT-standalone.jar -l [GitLogFile] -c git2 -a coupling > [OutputFile]
+
+In the example above, the first column (entity) gives us the name of the module, the second (coupled) gives us the name of a logically coupled module, the third column (degree) gives us the coupling as a percentage (0-100), and finally average-revs gives us the average number of revisions of the two modules.
+
+**************
+** CODE AGE **
+**************
+
+The change frequency of code is a factor that should (but rarely do) drive the evolution of a software architecture. In general, you want to stabilize as much code as possible. A failure to stabilize means that you need to maintain a working knowledge of those parts of the code for the life-time of the system.
+
+java -jar code-maat-1.0-SNAPSHOT-standalone.jar -l [GitLogFile] -c git2 -a age > [OutputFile]
+
+By default, Code Maat uses the current date as starting point for a code age analysis. You specify a different start time with the command line argument --age-time-now.
+
+*************************
+** CODE CHURN MEASURES **
+*************************
+
+********************
+** ABSOLUTE CHURN **
+********************
+
+The absolute code churn numbers are calculated with the -a abs-churn option. Note that the option is only available for git. The analysis will output a CSV table with the churn accumulated per date:
+
+java -jar code-maat-1.0-SNAPSHOT-standalone.jar -l [GitLogFile] -c git2 -a abs-churn > [OutputFile]
+
+******************
+** AUTHOR CHURN **
+******************
+
+The idea behind this analysis is to get an idea of the overal contributions by each individual. The analysis is invoked with the -a author-churn option. The result will be given as CSV:
+
+java -jar code-maat-1.0-SNAPSHOT-standalone.jar -l [GitLogFile] -c git2 -a author-churn > [OutputFile]
+
+*********************
+** CHURN BY ENTITY **
+*********************
+
+The pre-release churn of a module is a good predictor of its number of post-release defects. Such an analysis is supported in Code Maat by the -a entity-churn option.
+
+java -jar code-maat-1.0-SNAPSHOT-standalone.jar -l [GitLogFile] -c git2 -a entity-churn > [OutputFile]
+
+************************
+** OWNERSHIP PATTERNS **
+************************
+
+Once we have mined the organizational metrics descibed above, we may find we have multiple developers working on the same modules. How is their effort distributed? Does a particular module have a major developer or is everyone contributing a small piece? Let's find out by running the -a entity-ownership analysis.
+
+java -jar code-maat-1.0-SNAPSHOT-standalone.jar -l [GitLogFile] -c git2 -a entity-ownership > [OutputFile]
+
+Another ownership view is to consider the effort spent by individual authors on the different entities in the system. This analysis is run by the -a entity-effort option.
+
+java -jar code-maat-1.0-SNAPSHOT-standalone.jar -l [GitLogFile] -c git2 -a entity-effort > [OutputFile]
+
+This information may be a useful guide to find the right author to discuss functionality and potential refactoringswith. Just note that the ownership metrics are sensitive to the same biases as the churn metrics; they're both heuristics and no absolute truths.
+
