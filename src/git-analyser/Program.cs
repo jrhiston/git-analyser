@@ -13,7 +13,7 @@ namespace git_analyser
                 .UseStartup<Startup>()
                 .UseUrls("http://localhost:1234")
                 .Build();
- 
+
             host.Run();
         }
     }
