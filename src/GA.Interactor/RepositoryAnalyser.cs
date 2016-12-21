@@ -2,7 +2,7 @@
 
 namespace GitAnalyser.Interactor
 {
-    public class RepositoryAnalyser
+    public class RepositoryAnalyser : IRepositoryAnalyser
     {
         private readonly IRepositoryCloner _repositoryCloner;
         private readonly IFileCopier _fileCopier;
@@ -20,10 +20,8 @@ namespace GitAnalyser.Interactor
             string repositoryAddress,
             string folderName)
         {
-            CloneRepository(
-                destinationDirectory,
-                repositoryAddress,
-                folderName);
+            _repositoryCloner
+                .Clone(destinationDirectory, repositoryAddress, folderName);
 
             string destination = Path.Combine(destinationDirectory, folderName);
 
@@ -34,17 +32,6 @@ namespace GitAnalyser.Interactor
             return ProcessRunner.RunCommand(
                 destination,
                 BenchmarkingFileNames.GitAnalysisFileName);
-        }
-
-        private void CloneRepository(
-            string destinationDirectory,
-            string repositoryAddress,
-            string destinationFolder)
-        {
-            var cloneResult = _repositoryCloner.Clone(
-                repositoryAddress,
-                destinationFolder,
-                destinationDirectory);
         }
 
         private void CopyBenchmarkingFilesToDestination(string destination)

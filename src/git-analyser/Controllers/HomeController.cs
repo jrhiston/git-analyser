@@ -1,12 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using GitAnalyser.Interactor;
+using System;
 
 namespace git_analyser.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IRepositoryAnalyser _repositoryAnalyser;
+
+        public HomeController(IRepositoryAnalyser repositoryAnalyser)
+        {
+            _repositoryAnalyser = repositoryAnalyser;
+        }
+
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult AnalyzeGitRepository(string gitUrl)
+        {
+            var folder = Guid.NewGuid();
+
+            var result = _repositoryAnalyser.Analyse(
+                "~/git_repos/", 
+                gitUrl, 
+                folder.ToString());
+
+            return Json(result);
         }
 
         public IActionResult About()

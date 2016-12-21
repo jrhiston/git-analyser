@@ -1,11 +1,6 @@
 {
-  "name": "bootstrap-loader-example",
+  "name": "git-analyser",
   "version": "2.0.0-beta.8",
-  "description": "Example usage of bootstrap-loader",
-  "main": "server.prod.js",
-  "engines": {
-    "node": "5"
-  },
   "scripts": {
     "start": "nodemon --watch app/markup --ext html server.dev.js",
     "clean": "rm -rf public/",
@@ -26,19 +21,6 @@
     "bs4:default:prod": "npm run bs4:default:setup && npm run build && npm run prod",
     "install-local": "npm install --save-dev ../.."
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/shakacode/bootstrap-loader"
-  },
-  "keywords": [
-    "bootstrap",
-    "webpack"
-  ],
-  "authors": [
-    "Justin Gordon <justin.gordon@gmail.com> (https://github.com/justin808)",
-    "Alex Fedoseev <alex.fedoseev@gmail.com> (https://github.com/alexfedoseev)"
-  ],
-  "license": "MIT",
   "dependencies": {
     "bootstrap": "4.0.0-alpha.4",
     "bootstrap-sass": "^3.3.6",

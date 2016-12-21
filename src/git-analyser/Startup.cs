@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GitAnalyser.Interactor;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,10 @@ namespace git_analyser
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
+            services.AddSingleton<IRepositoryAnalyser, RepositoryAnalyser>();
+            services.AddSingleton<IRepositoryCloner, RepositoryCloner>();
+            services.AddSingleton<IFileCopier, FileCopier>();
+
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -44,6 +49,8 @@ namespace git_analyser
             //    .AddDefaultTokenProviders();
 
             services.AddMvc();
+
+
 
             // Add application services.
             //services.AddTransient<IEmailSender, AuthMessageSender>();

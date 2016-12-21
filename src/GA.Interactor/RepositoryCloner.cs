@@ -12,7 +12,9 @@ namespace GitAnalyser.Interactor
             _gitProcess = new Process();
         }
 
-        public string Clone(string repositoryAddress, string folderName, string path = null)
+        public string Result {get;set;}
+
+        public IRepositoryCloner Clone(string repositoryAddress, string folderName, string path = null)
         {
             var processInfo = new ProcessStartInfo
             {
@@ -27,16 +29,17 @@ namespace GitAnalyser.Interactor
 
             _gitProcess.StartInfo = processInfo;
 
-            return RunCommand($"clone {repositoryAddress} {folderName}");
+            RunCommand($"clone {repositoryAddress} {folderName}");
+
+            return this;
         }
 
-        private string RunCommand(string args)
+        private void RunCommand(string args)
         {
             _gitProcess.StartInfo.Arguments = args;
             _gitProcess.Start();
-            string output = _gitProcess.StandardOutput.ReadToEnd().Trim();
+            Result = _gitProcess.StandardOutput.ReadToEnd().Trim();
             _gitProcess.WaitForExit();
-            return output;
         }
     }
 }

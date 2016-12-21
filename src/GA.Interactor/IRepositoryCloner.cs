@@ -2,6 +2,8 @@
 {
     public interface IRepositoryCloner
     {
-        string Clone(string repositoryAddress, string folderName, string path = null);
+        IRepositoryCloner Clone(string repositoryAddress, string folderName, string path = null);
+
+        string Result { get; set; }
     }
 }
