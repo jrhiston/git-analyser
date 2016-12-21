@@ -1,60 +1,37 @@
-﻿using System.IO;
+﻿using GitAnalyser.Interactor.Commands;
+using System;
+using System.IO;
 
 namespace GitAnalyser.Interactor
 {
-    public class RepositoryAnalyser : IRepositoryAnalyser
+    internal class RepositoryAnalyser : IRepositoryAnalyser
     {
-        private readonly IRepositoryCloner _repositoryCloner;
         private readonly IFileCopier _fileCopier;
+        private readonly IDataAnalysisFactory _factory;
 
         public RepositoryAnalyser(
-            IRepositoryCloner repositoryCloner,
-            IFileCopier fileCopier)
+            IFileCopier fileCopier,
+            IDataAnalysisFactory dataAnalysisFactory)
         {
-            _repositoryCloner = repositoryCloner;
+            if (fileCopier == null)
+                throw new ArgumentNullException(nameof(fileCopier));
+
+            if (dataAnalysisFactory == null)
+                throw new ArgumentNullException(nameof(dataAnalysisFactory));
+
             _fileCopier = fileCopier;
+            _factory = dataAnalysisFactory;
         }
 
         public string Analyse(
-            string destinationDirectory,
-            string repositoryAddress,
-            string folderName)
+            RepositoryUrl repository,
+            RepositoryDestination repositoryDestination)
         {
-            _repositoryCloner
-                .Clone(destinationDirectory, repositoryAddress, folderName);
+            var result = _factory
+                .Create(repository, repositoryDestination)
+                .Execute();
 
-            string destination = Path.Combine(destinationDirectory, folderName);
-
-            CopyBenchmarkingFilesToDestination(destination);
-
-            ProcessRunner.RunCommand(destination, BenchmarkingFileNames.GitLogFileName);
-
-            return ProcessRunner.RunCommand(
-                destination,
-                BenchmarkingFileNames.GitAnalysisFileName);
-        }
-
-        private void CopyBenchmarkingFilesToDestination(string destination)
-        {
-            _fileCopier.CopyGenerateGitLogFileToPath(
-                Path.Combine(
-                    BenchmarkingFileNames.BenchmarkingFolderName,
-                    BenchmarkingFileNames.GitLogFileName),
-                destination,
-                BenchmarkingFileNames.GitLogFileName);
-
-            _fileCopier.CopyGenerateGitLogFileToPath(
-                Path.Combine(
-                    BenchmarkingFileNames.BenchmarkingFolderName,
-                    BenchmarkingFileNames.GitAnalysisFileName),
-                destination,
-                BenchmarkingFileNames.GitAnalysisFileName);
-            _fileCopier.CopyGenerateGitLogFileToPath(
-                Path.Combine(
-                    BenchmarkingFileNames.BenchmarkingFolderName,
-                    BenchmarkingFileNames.CodeMaatFileName),
-                destination,
-                BenchmarkingFileNames.CodeMaatFileName);
+            return result;
         }
     }
 }

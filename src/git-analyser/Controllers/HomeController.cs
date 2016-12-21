@@ -24,9 +24,8 @@ namespace git_analyser.Controllers
             var folder = Guid.NewGuid();
 
             var result = _repositoryAnalyser.Analyse(
-                "~/git_repos/", 
-                gitUrl, 
-                folder.ToString());
+                new RepositoryUrl(gitUrl),
+                new RepositoryDestination("~/git_repos/", folder.ToString()));
 
             return Json(result);
         }

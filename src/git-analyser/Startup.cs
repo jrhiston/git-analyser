@@ -37,9 +37,7 @@ namespace git_analyser
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddSingleton<IRepositoryAnalyser, RepositoryAnalyser>();
-            services.AddSingleton<IRepositoryCloner, RepositoryCloner>();
-            services.AddSingleton<IFileCopier, FileCopier>();
+            GitInteractorModule.RegisterServices(services);
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

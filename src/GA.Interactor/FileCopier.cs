@@ -2,7 +2,7 @@
 
 namespace GitAnalyser.Interactor
 {
-    public class FileCopier : IFileCopier
+    internal class FileCopier : IFileCopier
     {
         public void CopyGenerateGitLogFileToPath(
             string source,

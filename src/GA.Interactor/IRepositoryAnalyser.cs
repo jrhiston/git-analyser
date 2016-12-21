@@ -2,6 +2,8 @@ namespace GitAnalyser.Interactor
 {
     public interface IRepositoryAnalyser
     {
-        string Analyse(string destinationDirectory, string repositoryAddress, string folderName);
+        string Analyse(
+            RepositoryUrl repository,
+            RepositoryDestination repositoryDestination);
     }
 }

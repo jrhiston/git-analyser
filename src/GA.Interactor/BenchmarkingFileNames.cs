@@ -1,6 +1,6 @@
 ﻿namespace GitAnalyser.Interactor
 {
-    public static class BenchmarkingFileNames
+    internal static class BenchmarkingFileNames
     {
         public const string GitLogFileName = "generate-git-log.bat";
         public const string GitAnalysisFileName = "git-analysis.bat";

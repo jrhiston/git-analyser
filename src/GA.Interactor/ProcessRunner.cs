@@ -3,7 +3,7 @@ using System.IO;
 
 namespace GitAnalyser.Interactor
 {
-    public static class ProcessRunner
+    internal static class ProcessRunner
     {
         public static string RunCommand(string directoryPath, string file, string args = null)
         {

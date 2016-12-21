@@ -1,6 +1,6 @@
 ﻿namespace GitAnalyser.Interactor
 {
-    public interface IFileCopier
+    internal interface IFileCopier
     {
         void CopyGenerateGitLogFileToPath(
             string source,
