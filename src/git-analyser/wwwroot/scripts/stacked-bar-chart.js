@@ -31,6 +31,8 @@ export default function printStackedBarChart(selector, getData) {
 
         var series = svg.selectAll('.serie').data(seriesData)
 
+        var scale = d3.scaleLinear().domain([0, d3.max(d3.max(seriesData[seriesData.length -1]))]).range([0, h]);
+
         var newSeries = series
             .enter()
             .append('g')
@@ -39,7 +41,7 @@ export default function printStackedBarChart(selector, getData) {
         
         updateRectangles(newSeries
             .selectAll('rect')
-            .data(d => d))
+            .data(d => d),scale)
 
         var rects = series
             .selectAll('rect')
@@ -52,12 +54,12 @@ export default function printStackedBarChart(selector, getData) {
         rects.exit().remove()
     }
 
-    function updateRectangles(rectSelector){
+    function updateRectangles(rectSelector, scale){
         rectSelector.enter()
             .append('rect')
             .attr('x', (item, index) => index * itemWidth + 10)
-            .attr('y', d => h - (d[d.length - 1] * 4))
-            .attr('height', d => (d[d.length - 1] - d[0]) * 4)
+            .attr('y', d => h - scale(d[d.length - 1]))
+            .attr('height', d => (scale(d[d.length - 1]) - scale(d[0])))
             .attr("class", "bar__stacked")
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut)

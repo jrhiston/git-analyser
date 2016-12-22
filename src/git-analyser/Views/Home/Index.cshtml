@@ -4,43 +4,74 @@
 
 <h1>Git Analysis</h1>
 
-<h2>Summary</h2>
 <div class="row">
     <div class="col-md-12">
-        <div class="summary"></div>
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="repositoryUrl">Repository Url</label>
+                <input style="width:400px"
+                       id="repositoryUrl"
+                       class="form-control"
+                       aria-describedby="repositoryUrl"
+                       name="repositoryUrl"
+                       type="text"
+                       placeholder="Enter Repository Url" />
+            </div>
+            <button id="submitUrl" class="btn btn-primary">Submit</button>
+        </div>
     </div>
 </div>
 
-<h2>Organisational Metrics</h2>
-<p>By default, Code Maat runs an analysis on the number of authors per module. The authors analysis is based on the idea that
-    the more developers working on a module, the larger the communication challenges.</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="img-loading text-center hidden">
+            <img src="~/images/5.gif" />
+        </div>
+    </div>
+</div>
 
-@Html.Partial("_Results", new ResultsViewModel { Prefix = "org-metrics" })
+<div class="results hidden">
+    <h2>Summary</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="summary"></div>
+        </div>
+    </div>
 
-<h2>Coupling</h2>
+    <h2>Organisational Metrics</h2>
+    <p>
+        By default, Code Maat runs an analysis on the number of authors per module. The authors analysis is based on the idea that
+        the more developers working on a module, the larger the communication challenges.
+    </p>
 
-@Html.Partial("_Results", new ResultsViewModel { Prefix = "coupling" })
+    @Html.Partial("_Results", new ResultsViewModel { Prefix = "org-metrics" })
 
-<h2>Age</h2>
+    <h2>Coupling</h2>
 
-@Html.Partial("_Results", new ResultsViewModel { Prefix = "age" })
+    @Html.Partial("_Results", new ResultsViewModel { Prefix = "coupling" })
 
-<h2>Absolute Churn</h2>
+    <h2>Age</h2>
 
-@Html.Partial("_Results", new ResultsViewModel { Prefix = "abs-churn" })
+    @Html.Partial("_Results", new ResultsViewModel { Prefix = "age" })
 
-<h2>Author Churn</h2>
+    <h2>Absolute Churn</h2>
 
-@Html.Partial("_Results", new ResultsViewModel { Prefix = "author-churn" })
+    @Html.Partial("_Results", new ResultsViewModel { Prefix = "abs-churn" })
 
-<h2>Entity Churn</h2>
+    <h2>Author Churn</h2>
 
-@Html.Partial("_Results", new ResultsViewModel { Prefix = "entity-churn" })
+    @Html.Partial("_Results", new ResultsViewModel { Prefix = "author-churn" })
 
-<h2>Entity Ownership</h2>
+    <h2>Entity Churn</h2>
 
-@Html.Partial("_Results", new ResultsViewModel { Prefix = "entity-ownership" })
+    @Html.Partial("_Results", new ResultsViewModel { Prefix = "entity-churn" })
 
-<h2>Entity Effort</h2>
+    <h2>Entity Ownership</h2>
 
-@Html.Partial("_Results", new ResultsViewModel { Prefix = "entity-effort" })
+    @Html.Partial("_Results", new ResultsViewModel { Prefix = "entity-ownership" })
+
+    <h2>Entity Effort</h2>
+
+    @Html.Partial("_Results", new ResultsViewModel { Prefix = "entity-effort" })
+
+</div>

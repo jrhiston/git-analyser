@@ -10,11 +10,25 @@ import { pieChart } from './pie-chart'
     var numOfAuthorsSelector = 'n-authors';
     var numRevisionsSelector = 'n-revs';
 
-    function initialise(callback) {
+    $(document).on("click", "#submitUrl", () => {
+        $(".results").addClass("hidden");
+        $(".img-loading").removeClass("hidden");
+
+        var gitUrl = $("#repositoryUrl").val();
+
+        if (gitUrl === "")
+        {
+            return;
+        }
+
+        initialise(gitUrl, generateVisuals);
+    })
+
+    function initialise(gitUrl, callback) {
         $.post(
             "/Home/Analyse",
             {
-                gitUrl: "https://github.com/jrhiston/git-analyser.git"
+                gitUrl: gitUrl
             },
             (data, status, xhr) => {
                 console.log(data);
@@ -22,10 +36,12 @@ import { pieChart } from './pie-chart'
                 if (!data) {
                     return;
                 }
-
+                
+                $(".img-loading").addClass("hidden");
+                $(".results").removeClass("hidden");
                 printSummary(data[0]);
                 printSection(data[1], "org-metrics", "n-revs", callback);
-                printSection(data[2], "coupling", "coupled", callback);
+                printSection(data[2], "coupling", "average-revs", callback);
                 printSection(data[3], "age", "age-months", callback);
                 printSection(data[4], "abs-churn", "added", callback);
                 printSection(data[5], "author-churn", "added", callback);
@@ -88,5 +104,5 @@ import { pieChart } from './pie-chart'
             data.slice(0, 15));
     }
 
-    initialise(generateVisuals);
+    //initialise(generateVisuals);
 })();
