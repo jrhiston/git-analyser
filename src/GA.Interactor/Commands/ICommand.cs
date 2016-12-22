@@ -1,7 +1,9 @@
-﻿namespace GitAnalyser.Interactor.Commands
+﻿using GitAnalyser.Interactor.Pipes;
+
+namespace GitAnalyser.Interactor.Commands
 {
-    internal interface ICommand<out TOutput>
+    internal interface ICommand
     {
-        TOutput Execute();
+        ICommandVisitor Execute(ICommandVisitor visitor);
     }
 }

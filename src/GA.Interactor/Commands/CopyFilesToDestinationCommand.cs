@@ -1,28 +1,35 @@
-﻿using System;
+﻿using GitAnalyser.Interactor.Pipes;
+using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace GitAnalyser.Interactor.Commands
 {
-    internal class CopyFilesToDestinationCommand : ICommand<string>
+    internal class CopyFilesToDestinationCommand : CommandResultVisitorBase
     {
         private readonly IFileCopier _fileCopier;
-        private readonly RepositoryDestination _destination;
+        private readonly RepositoryDestination _repositoryDestination;
 
-        private CopyFilesToDestinationCommand(
+        public CopyFilesToDestinationCommand(
             IFileCopier fileCopier,
-            RepositoryDestination destination)
+            RepositoryDestination repositoryDestination)
         {
             if (fileCopier == null)
                 throw new ArgumentNullException(nameof(fileCopier));
 
-            if (destination == null)
-                throw new ArgumentNullException(nameof(destination));
+            if (repositoryDestination == null)
+                throw new ArgumentNullException(nameof(repositoryDestination));
 
             _fileCopier = fileCopier;
-            _destination = destination;
+            _repositoryDestination = repositoryDestination;
         }
 
-        public string Execute() => CopyBenchmarkingFilesToDestination(_destination.ToString());
+        public override IEnumerator<ICommandResult> GetEnumerator()
+        {
+            CopyBenchmarkingFilesToDestination(_repositoryDestination.ToString());
+
+            yield return new CloneResult("success");
+        }
 
         private string CopyBenchmarkingFilesToDestination(string destination)
         {
@@ -38,10 +45,5 @@ namespace GitAnalyser.Interactor.Commands
                 Path.Combine(BenchmarkingFileNames.BenchmarkingFolderName, fileName),
                 destination,
                 fileName);
-
-        public static CopyFilesToDestinationCommand Create(
-            IFileCopier fileCopier,
-            RepositoryDestination destination)
-                => new CopyFilesToDestinationCommand(fileCopier, destination);
     }
 }

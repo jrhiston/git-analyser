@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using GitAnalyser.Interactor;
-using System;
+using GitAnalyser.Interactor.Commands;
+using System.IO;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace git_analyser.Controllers
 {
@@ -19,34 +22,16 @@ namespace git_analyser.Controllers
         }
 
         [HttpPost]
-        public JsonResult AnalyzeGitRepository(string gitUrl)
+        public async Task<JsonResult> Analyse(string gitUrl)
         {
-            var folder = Guid.NewGuid();
-
-            var result = _repositoryAnalyser.Analyse(
+            AnalysisResults result = await _repositoryAnalyser.AnalyseAsync(
                 new RepositoryUrl(gitUrl),
-                new RepositoryDestination("~/git_repos/", folder.ToString()));
+                new RepositoryDestination(
+                    Path.Combine(
+                        GitRepositoryDestinations.Default, 
+                        Path.GetFileNameWithoutExtension(gitUrl))));
 
-            return Json(result);
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View();
+            return Json(result.OfType<DataAnalysisResult>().ToList());
         }
     }
 }

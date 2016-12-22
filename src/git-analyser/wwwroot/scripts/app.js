@@ -19,16 +19,38 @@ import { pieChart } from './pie-chart'
     }
 
     function initialise(callback) {
-        d3.csv("../data/org-metrics.csv", function (data) {
-            if (!data) {
-                return;
-            }
+        $.post(
+            "/Home/Analyse",
+            {
+                gitUrl: "https://github.com/jrhiston/git-analyser.git"
+            },
+            (data, status, xhr) => {
+                console.log(data);
 
-            var getData = setData(data);
-            console.log("Loaded data: ");
-            console.log(data);
-            callback(getData);
-        });
+                var dsv = d3.dsvFormat(",");
+
+                var data = dsv.parse(data[6].result);
+
+                if (!data) {
+                    return;
+                }
+
+                var getData = setData(data);
+                console.log("Loaded data: ");
+                console.log(data);
+                callback(getData);
+            });
+
+        //d3.csv("../data/org-metrics.csv", function (data) {
+        //    if (!data) {
+        //        return;
+        //    }
+
+        //    var getData = setData(data);
+        //    console.log("Loaded data: ");
+        //    console.log(data);
+        //    callback(getData);
+        //});
     }
 
     function generateVisuals(getData) {

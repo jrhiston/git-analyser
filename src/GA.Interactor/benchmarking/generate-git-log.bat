@@ -1,1 +1,1 @@
-git.exe log --all --numstat --date^=short --pretty^=format:"--%%h--%%ad--%%aN" --no-renames --since^="%1" > "git-log.txt"
+git.exe log --all --numstat --date^=short --pretty^=format:"--%%h--%%ad--%%aN" --no-renames > "git-log.txt"

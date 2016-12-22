@@ -5,14 +5,14 @@ namespace GitAnalyser.Interactor
 {
     internal static class ProcessRunner
     {
-        public static string RunCommand(string directoryPath, string file, string args = null)
+        public static string RunGitCommand(string args = null)
         {
-            var processInfo = new ProcessStartInfo(Path.Combine(directoryPath, file))
+            var processInfo = new ProcessStartInfo()
             {
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                CreateNoWindow = true,
-                WorkingDirectory = directoryPath
+                FileName = "git.exe",
+                CreateNoWindow = true
             };
 
             var _gitProcess = new Process();
@@ -22,6 +22,25 @@ namespace GitAnalyser.Interactor
             {
                 _gitProcess.StartInfo.Arguments = args;
             }
+
+            _gitProcess.Start();
+            string output = _gitProcess.StandardOutput.ReadToEnd().Trim();
+            _gitProcess.WaitForExit();
+            return output;
+        }
+
+        public static string RunCommand(string directoryPath, string file)
+        {
+            var processInfo = new ProcessStartInfo("cmd.exe", "/c " + file)
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+                WorkingDirectory = directoryPath
+            };
+
+            var _gitProcess = new Process();
+            _gitProcess.StartInfo = processInfo;
 
             _gitProcess.Start();
             string output = _gitProcess.StandardOutput.ReadToEnd().Trim();

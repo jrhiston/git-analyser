@@ -1,5 +1,7 @@
-﻿using System;
+﻿using GitAnalyser.Interactor.Commands;
+using System;
 using System.IO;
+using GitAnalyser.Interactor.Pipes;
 
 namespace GitAnalyser.Interactor
 {
@@ -13,11 +15,6 @@ namespace GitAnalyser.Interactor
                 throw new ArgumentNullException(nameof(destination));
 
             _destination = destination;
-        }
-
-        public RepositoryDestination(string containingFolder, string folderName) 
-            : this(Path.Combine(containingFolder, folderName))
-        {
         }
 
         public string Destination => _destination;

@@ -1,37 +1,31 @@
 ﻿using GitAnalyser.Interactor.Commands;
 using System;
-using System.IO;
+using System.Threading.Tasks;
 
 namespace GitAnalyser.Interactor
 {
     internal class RepositoryAnalyser : IRepositoryAnalyser
     {
         private readonly IFileCopier _fileCopier;
-        private readonly IDataAnalysisFactory _factory;
 
-        public RepositoryAnalyser(
-            IFileCopier fileCopier,
-            IDataAnalysisFactory dataAnalysisFactory)
+        public RepositoryAnalyser(IFileCopier fileCopier)
         {
             if (fileCopier == null)
                 throw new ArgumentNullException(nameof(fileCopier));
 
-            if (dataAnalysisFactory == null)
-                throw new ArgumentNullException(nameof(dataAnalysisFactory));
-
             _fileCopier = fileCopier;
-            _factory = dataAnalysisFactory;
         }
 
-        public string Analyse(
+        public AnalysisResults Analyse(
             RepositoryUrl repository,
-            RepositoryDestination repositoryDestination)
-        {
-            var result = _factory
-                .Create(repository, repositoryDestination)
-                .Execute();
+            RepositoryDestination repositoryDestination) 
+                => new DataAnalysisPipeline(_fileCopier, repository, repositoryDestination)
+                    .Create()
+                    .Pipe(new AnalysisResults());
 
-            return result;
-        }
+        public Task<AnalysisResults> AnalyseAsync(
+            RepositoryUrl repository,
+            RepositoryDestination repositoryDestination) 
+                => Task.Run(() => Analyse(repository, repositoryDestination));
     }
 }

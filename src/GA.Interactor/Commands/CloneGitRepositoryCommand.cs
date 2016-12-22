@@ -1,41 +1,32 @@
-﻿using System;
+﻿using GitAnalyser.Interactor.Pipes;
+using System;
+using System.Collections.Generic;
 
 namespace GitAnalyser.Interactor.Commands
 {
-    internal class CloneGitRepositoryCommand : ICommand<string>
+    internal class CloneGitRepositoryCommand : CommandResultVisitorBase
     {
-        private readonly RepositoryUrl _repository;
-        private readonly RepositoryDestination _destination;
+        private readonly RepositoryUrl _repositoryUrl;
+        private readonly RepositoryDestination _repositoryDestination;
 
-        private CloneGitRepositoryCommand(
-            RepositoryUrl repository,
-            RepositoryDestination destination)
+        public CloneGitRepositoryCommand(
+            RepositoryUrl repositoryUrl,
+            RepositoryDestination repositoryDestination)
         {
-            if (repository == null)
-                throw new ArgumentNullException(nameof(repository));
+            if (repositoryUrl == null)
+                throw new ArgumentNullException(nameof(repositoryUrl));
 
-            if (destination == null)
-                throw new ArgumentNullException(nameof(destination));
+            if (repositoryDestination == null)
+                throw new ArgumentNullException(nameof(repositoryDestination));
 
-
-            _repository = repository;
-            _destination = destination;
+            _repositoryUrl = repositoryUrl;
+            _repositoryDestination = repositoryDestination;
         }
 
-        public RepositoryUrl Repository => _repository;
-        public RepositoryDestination Destination => _destination;
-
-        public string Execute()
+        public override IEnumerator<ICommandResult> GetEnumerator()
         {
-            return ProcessRunner.RunCommand(
-                _destination.ToString(),
-                "git.exe",
-                $"clone {_repository.ToString()} {_destination.ToString()}");
+            yield return new CloneResult(ProcessRunner.RunGitCommand(
+                $"clone {_repositoryUrl.ToString()} {_repositoryDestination.ToString()}"));
         }
-
-        public static CloneGitRepositoryCommand Create(
-            RepositoryUrl repository,
-            RepositoryDestination destination)
-                => new CloneGitRepositoryCommand(repository, destination);
     }
 }
