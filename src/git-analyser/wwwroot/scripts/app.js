@@ -6,17 +6,9 @@ import { printTable } from "./raw-data"
 import { pieChart } from './pie-chart'
 
 (function () {
-    var bubbleChartSelector = '.bubbleChart';
-    var pieChartSelector = '.pieChart';
     var entitySelector = 'entity';
     var numOfAuthorsSelector = 'n-authors';
     var numRevisionsSelector = 'n-revs';
-
-    function setData(data) {
-        return function getData() {
-            return data;
-        };
-    }
 
     function initialise(callback) {
         $.post(
@@ -27,64 +19,73 @@ import { pieChart } from './pie-chart'
             (data, status, xhr) => {
                 console.log(data);
 
-                var dsv = d3.dsvFormat(",");
-
-                var data = dsv.parse(data[6].result);
-
                 if (!data) {
                     return;
                 }
 
-                var getData = setData(data);
-                console.log("Loaded data: ");
-                console.log(data);
-                callback(getData);
+                printSummary(data[0]);
+                printSection(data[1], "org-metrics", "n-revs", callback);
+                printSection(data[2], "coupling", "coupled", callback);
+                printSection(data[3], "age", "age-months", callback);
+                printSection(data[4], "abs-churn", "added", callback);
+                printSection(data[5], "author-churn", "added", callback);
+                printSection(data[6], "entity-churn", "added", callback);
+                printSection(data[7], "entity-ownership", "added", callback);
+                printSection(data[8], "entity-effort", "author-revs", callback);
             });
-
-        //d3.csv("../data/org-metrics.csv", function (data) {
-        //    if (!data) {
-        //        return;
-        //    }
-
-        //    var getData = setData(data);
-        //    console.log("Loaded data: ");
-        //    console.log(data);
-        //    callback(getData);
-        //});
     }
 
-    function generateVisuals(getData) {
-        print.bubbleChart(bubbleChartSelector, getData, numRevisionsSelector);
-        pieChart(pieChartSelector, getData, numRevisionsSelector, 400, 25);
+    const printSection = (data, prefix, colForPieChart, callback) => {
 
-        //print.printStraightLineCircles(canvasSelector, getData, numRevisionsSelector);
-        // barChart('.number-of-revs', getData, numRevisionsSelector, 15);
-        // barChart('.number-of-authors', getData, numOfAuthorsSelector, 15);
+        var dsv = d3.dsvFormat(",");
+        var orgMetrics = dsv.parse(data.result);
 
-        printStackedBarChart('.stacked-bar-chart', getData, [numRevisionsSelector,numOfAuthorsSelector]);
-        // print.printRawData(".number-of-revs-data", getData)
-
-        var rawData = getData().slice(0, 15);
-
-        var cols = [
-            {
-                head: "entity", 
-                cl: "title",
-                html: d => d.entity
-            },
-            {
-                head: "n-authors",
-                cl: "n-authors",
-                html: d => d["n-authors"]
-            },
-            {
-                head: "n-revs",
-                cl: "n-revs",
-                html: d => d["n-revs"]
+        var cols = orgMetrics.columns.map((col) => {
+            return {
+                head: col, 
+                cl: col,
+                html: d => d[col]
             }
-        ];
+        });
 
-        printTable(".number-of-revs-data", cols, rawData);
+        console.log("Loaded data: ");
+        console.log(orgMetrics);
+        callback(orgMetrics, prefix, cols, colForPieChart);
+    }
+
+    const printSummary = (data) => {
+        var dsv = d3.dsvFormat(",");
+        var summary = dsv.parse(data.result);
+        
+        var cols = summary.columns.map((col) => {
+            return {
+                head: col, 
+                cl: col,
+                html: d => d[col]
+            }
+        });
+
+        printTable(
+            `.summary`, 
+            cols, 
+            summary);
+    }
+
+    function generateVisuals(data, prefix, cols, colForPieChart) {
+        printStackedBarChart(
+            `.${prefix}__stacked-bar-chart`, 
+            () => data);
+
+        pieChart(`.${prefix}__pieChart`, 
+            () => data, 
+            colForPieChart, 
+            400, 
+            25);
+
+        printTable(
+            `.${prefix}__number-of-revs-data`, 
+            cols, 
+            data.slice(0, 15));
     }
 
     initialise(generateVisuals);

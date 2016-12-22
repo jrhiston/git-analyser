@@ -10,10 +10,14 @@ namespace git_analyser.Controllers
     public class HomeController : Controller
     {
         private readonly IRepositoryAnalyser _repositoryAnalyser;
+        private readonly ViewRenderService _viewRenderService;
 
-        public HomeController(IRepositoryAnalyser repositoryAnalyser)
+        public HomeController(
+            IRepositoryAnalyser repositoryAnalyser,
+            ViewRenderService viewRenderService)
         {
             _repositoryAnalyser = repositoryAnalyser;
+            _viewRenderService = viewRenderService;
         }
 
         public IActionResult Index()

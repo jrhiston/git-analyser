@@ -1,34 +1,46 @@
-﻿@{ ViewData["Title"] = "Home Page"; }
+﻿@using git_analyser.Models
+
+@{ ViewData["Title"] = "Home Page"; }
 
 <h1>Git Analysis</h1>
+
+<h2>Summary</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="summary"></div>
+    </div>
+</div>
 
 <h2>Organisational Metrics</h2>
 <p>By default, Code Maat runs an analysis on the number of authors per module. The authors analysis is based on the idea that
     the more developers working on a module, the larger the communication challenges.</p>
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="stacked-bar-chart"></div>
-    </div>
-    <div class="col-md-6">
-        <div class="pieChart"></div>
-    </div>
-</div>
-<!--<div class="row">
-    <div class="col-md-6">
-        <div class="number-of-revs"></div>
-    </div>
-    <div class="col-md-6">
-        <div class="number-of-authors"></div>
-    </div>
-</div>-->
-<div class="row">
-    <div class="col-md-12">
-        <div class="number-of-revs-data"></div>
-    </div>
-</div>
-<div class="bubbleChartArea">
-    <h2>Bubble Chart</h2>
-    <div class="bubbleChart">
-    </div>
-</div>
+@Html.Partial("_Results", new ResultsViewModel { Prefix = "org-metrics" })
+
+<h2>Coupling</h2>
+
+@Html.Partial("_Results", new ResultsViewModel { Prefix = "coupling" })
+
+<h2>Age</h2>
+
+@Html.Partial("_Results", new ResultsViewModel { Prefix = "age" })
+
+<h2>Absolute Churn</h2>
+
+@Html.Partial("_Results", new ResultsViewModel { Prefix = "abs-churn" })
+
+<h2>Author Churn</h2>
+
+@Html.Partial("_Results", new ResultsViewModel { Prefix = "author-churn" })
+
+<h2>Entity Churn</h2>
+
+@Html.Partial("_Results", new ResultsViewModel { Prefix = "entity-churn" })
+
+<h2>Entity Ownership</h2>
+
+@Html.Partial("_Results", new ResultsViewModel { Prefix = "entity-ownership" })
+
+<h2>Entity Effort</h2>
+
+@Html.Partial("_Results", new ResultsViewModel { Prefix = "entity-effort" })

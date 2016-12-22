@@ -1,6 +1,6 @@
 ﻿var d3 = require('d3')
 
-export default function printStackedBarChart(selector, getData, dataSelectors) {
+export default function printStackedBarChart(selector, getData) {
     const h = 400
     var data = getData()
 

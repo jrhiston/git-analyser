@@ -1,6 +1,7 @@
 ﻿using GitAnalyser.Interactor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -38,6 +39,9 @@ namespace git_analyser
             //services.AddApplicationInsightsTelemetry(Configuration);
 
             GitInteractorModule.RegisterServices(services);
+
+            services.AddTransient<ViewRenderService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

@@ -28,7 +28,7 @@ namespace GitAnalyser.Interactor.Commands
         {
             CopyBenchmarkingFilesToDestination(_repositoryDestination.ToString());
 
-            yield return new CloneResult("success");
+            yield return new CopyFilesResult("success");
         }
 
         private string CopyBenchmarkingFilesToDestination(string destination)
