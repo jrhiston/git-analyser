@@ -20,15 +20,16 @@ var options = {
     target: 'http://localhost:1234/', // target host
     changeOrigin: true,               // needed for virtual hosted sites
     ws: true,                         // proxy websockets
+    logLevel: 'debug',
     //pathRewrite: {
     //    '^/old/api': '/new/api',     // rewrite path
     //    '^/remove/api': '/api'       // remove path
     //},
-    router: {
+    //router: {
         // when request.headers.host == 'dev.localhost:3000',
         // override target 'http://www.example.org' to 'http://localhost:8000'
-        'dev.localhost:3000': 'http://localhost:8000'
-    }
+    //    'dev.localhost:3000': 'http://localhost:8000'
+    //}
 };
 
 server.use(webpackDevMiddleware(compiler, {
@@ -46,13 +47,12 @@ server.use(webpackDevMiddleware(compiler, {
 
 server.use(webpackHotMiddleware(compiler));
 
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: true }));
-
 // create the proxy (without context)
 var exampleProxy = proxy(options);
-
 server.use('/', exampleProxy);
+
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }));
 
 server.listen(PORT, 'localhost', err => {
   if (err) console.log(`=> OMG!!! 🙀 ${err}`);
