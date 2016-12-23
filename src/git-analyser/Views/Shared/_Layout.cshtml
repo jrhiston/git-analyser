@@ -11,7 +11,7 @@
     <environment names="Staging,Production">
 
     </environment>
-    @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
+    <script src="~/assets/app.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse">
@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container-fluid body-content">
         @RenderBody()
         <hr />
         <footer>
@@ -40,7 +40,6 @@
         </footer>
     </div>
 
-    <script src="~/assets/app.js"></script>
     <environment names="Development">
     </environment>
     <environment names="Staging,Production">
