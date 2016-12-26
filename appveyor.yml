@@ -30,5 +30,3 @@ artifacts:
 - path: artifacts\**\*.*
 cache:
 - '%USERPROFILE%\.nuget\packages'
-on_finish: # Run the demo to show that it works
-- dotnet artifacts\git-analyser\git-analyser.dll
