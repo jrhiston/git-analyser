@@ -1,8 +1,11 @@
 version: '0.2.0.{build}'
 configuration:
 - Release
-on:
-  appveyor_repo_tag: true
+branches:
+  only:
+    - master
+    on:
+      appveyor_repo_tag: true
 assembly_info:
   assembly_version: '{version}'
   assembly_file_version: '{version}'
