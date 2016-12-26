@@ -1,11 +1,6 @@
 version: '0.2.0.{build}'
 configuration:
 - Release
-deploy:
-  - provider: Environment
-    name: production
-    on:
-      branch: master
 assembly_info:
   assembly_version: '{version}'
   assembly_file_version: '{version}'
