@@ -10,6 +10,10 @@ namespace GitAnalyser.Interactor.Commands
         private readonly RepositoryUrl _repositoryUrl;
         private readonly RepositoryDestination _repositoryDestination;
 
+        public IFileCopier FileCopier => _fileCopier;
+        public RepositoryUrl RepositoryUrl => _repositoryUrl;
+        public RepositoryDestination RepositoryDestination => _repositoryDestination;
+
         public DataAnalysisPipeline(
             IFileCopier fileCopier,
             RepositoryUrl repositoryUrl,
@@ -54,7 +58,7 @@ namespace GitAnalyser.Interactor.Commands
                 new CommandVisitorPipe(
                     new CloneGitRepositoryCommand(_repositoryUrl, _repositoryDestination)),
                 new CommandVisitorPipe(
-                    new CopyFilesToDestinationCommand(_fileCopier, _repositoryDestination)),
+                    new CopyFilesToDestinationCommand(FileCopier, _repositoryDestination)),
                 new CommandVisitorPipe(
                     new GenerateDataCommand(_repositoryDestination, BenchmarkingFileNames.GitLogFileName)),
                 new CommandVisitorPipe(

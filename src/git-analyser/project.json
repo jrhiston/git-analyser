@@ -1,4 +1,8 @@
-﻿{
+{
+  "title": "Git Analyser",
+  "version": "0.2.0",
+  "description": "Git Analyser",
+  "language": "en-GB",
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.1.0",
@@ -89,7 +93,6 @@
   },
 
   "scripts": {
-    "prepublish": [ "bower install", "dotnet bundle" ],
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   }
 }
