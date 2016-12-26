@@ -25,7 +25,7 @@
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
-    "GA.Interactor": "1.0.0-*"
+    "GA.Interactor": "0.2.0"
   },
 
   "frameworks": {
