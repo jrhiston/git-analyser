@@ -1,6 +1,4 @@
-﻿using GitAnalyser.Interactor.Commands;
-using System;
-using GitAnalyser.Interactor.Pipes;
+﻿using System;
 
 namespace GitAnalyser.Interactor
 {

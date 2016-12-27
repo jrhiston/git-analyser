@@ -19,7 +19,7 @@ namespace GA.Interactor.Tests
         {
             var sut = new PipelineFactory(Mock.Of<IFileCopier>());
 
-            DataAnalysisPipeline result = sut.CreateDataAnalysisPipeline(
+            DataAnalysisPipeline result = (DataAnalysisPipeline) sut.CreateDataAnalysisPipeline(
                 new RepositoryUrl("Url"),
                 new RepositoryDestination("Destination"));
 
@@ -33,7 +33,7 @@ namespace GA.Interactor.Tests
 
             var sut = new PipelineFactory(fileCopierMock);
 
-            DataAnalysisPipeline result = sut.CreateDataAnalysisPipeline(
+            DataAnalysisPipeline result = (DataAnalysisPipeline) sut.CreateDataAnalysisPipeline(
                 new RepositoryUrl("Url"),
                 new RepositoryDestination("Destination"));
 
@@ -46,7 +46,7 @@ namespace GA.Interactor.Tests
             var url = new RepositoryUrl("url");
             var sut = new PipelineFactory(Mock.Of<IFileCopier>());
 
-            DataAnalysisPipeline result = sut.CreateDataAnalysisPipeline(
+            DataAnalysisPipeline result = (DataAnalysisPipeline) sut.CreateDataAnalysisPipeline(
                 url,
                 new RepositoryDestination("Destination"));
 
@@ -59,7 +59,7 @@ namespace GA.Interactor.Tests
             var dest = new RepositoryDestination("destination");
             var sut = new PipelineFactory(Mock.Of<IFileCopier>());
 
-            DataAnalysisPipeline result = sut.CreateDataAnalysisPipeline(
+            DataAnalysisPipeline result = (DataAnalysisPipeline) sut.CreateDataAnalysisPipeline(
                 new RepositoryUrl("url"),
                 dest);
 

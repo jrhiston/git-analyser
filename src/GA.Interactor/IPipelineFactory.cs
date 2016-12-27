@@ -1,10 +1,11 @@
 ﻿using GitAnalyser.Interactor.Commands;
+using GitAnalyser.Interactor.Pipes;
 
 namespace GitAnalyser.Interactor
 {
     internal interface IPipelineFactory
     {
-        DataAnalysisPipeline CreateDataAnalysisPipeline(
+        IPipeline<AnalysisResults> CreateDataAnalysisPipeline(
             RepositoryUrl repositoryUrl,
             RepositoryDestination repositoryDestination);
     }

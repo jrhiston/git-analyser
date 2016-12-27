@@ -1,5 +1,6 @@
 ﻿using System;
 using GitAnalyser.Interactor.Commands;
+using GitAnalyser.Interactor.Pipes;
 
 namespace GitAnalyser.Interactor
 {
@@ -17,7 +18,7 @@ namespace GitAnalyser.Interactor
 
         internal IFileCopier FileCopier => _fileCopier;
 
-        public DataAnalysisPipeline CreateDataAnalysisPipeline(
+        public IPipeline<AnalysisResults> CreateDataAnalysisPipeline(
             RepositoryUrl repositoryUrl,
             RepositoryDestination repositoryDestination)
         {

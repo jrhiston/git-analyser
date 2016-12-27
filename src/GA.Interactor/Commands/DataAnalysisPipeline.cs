@@ -4,7 +4,7 @@ using System.IO;
 
 namespace GitAnalyser.Interactor.Commands
 {
-    internal class DataAnalysisPipeline
+    internal class DataAnalysisPipeline : IPipeline<AnalysisResults>
     {
         private readonly IFileCopier _fileCopier;
         private readonly RepositoryUrl _repositoryUrl;

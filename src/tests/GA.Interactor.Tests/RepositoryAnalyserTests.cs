@@ -3,6 +3,8 @@ using GitAnalyser.Interactor.Commands;
 using Moq;
 using System;
 using Xunit;
+using GitAnalyser.Interactor.Pipes;
+using GA.Interactor.Tests.Builders;
 
 namespace GA.Interactor.Tests
 {
@@ -10,17 +12,10 @@ namespace GA.Interactor.Tests
     public class RepositoryAnalyserTests
     {
         [Fact]
-        public void Should_ThrowArgumentNullException_When_FileCopierIsNull()
-        {
-            var exception = Assert.Throws<ArgumentNullException>(
-                () => new RepositoryAnalyser(null, Mock.Of<IPipelineFactory>()));
-        }
-
-        [Fact]
         public void Should_ThrowArgumentNullException_When_PipelineFactoryIsNull()
         {
             var exception = Assert.Throws<ArgumentNullException>(
-                () => new RepositoryAnalyser(Mock.Of<IFileCopier>(), null));
+                () => new RepositoryAnalyser(null));
         }
 
         [Fact]
@@ -28,31 +23,53 @@ namespace GA.Interactor.Tests
         {
             var pipelineFactoryMock = Mock.Of<IPipelineFactory>();
 
-            var sut = new RepositoryAnalyser(Mock.Of<IFileCopier>(), pipelineFactoryMock);
+            var sut = new RepositoryAnalyser(pipelineFactoryMock);
 
             Assert.Same(pipelineFactoryMock, sut.PipelineFactory);
         }
 
         [Fact]
-        public void Should_ExposeFileCopier_When_GivenFileCopier()
+        public void Should_CreateDataAnalysisPipelineWithParameters_When_GivenParameters()
         {
-            var fileCopier = Mock.Of<IFileCopier>();
+            var builder = new PipelineFactoryBuilder()
+                .SetRepositoryUrl("url")
+                .SetRepositoryDestination("destination");
 
-            var sut = new RepositoryAnalyser(fileCopier, Mock.Of<IPipelineFactory>());
+            var mockPipelineFactory = builder.Build();
 
-            Assert.Same(fileCopier, sut.FileCopier);
+            var sut = new RepositoryAnalyser(mockPipelineFactory);
+
+            var result = sut.Analyse(
+                builder.RepositoryUrl, 
+                builder.RepositoryDestination);
+
+            Mock.Get(mockPipelineFactory)
+                .Verify(
+                    pl => pl.CreateDataAnalysisPipeline(builder.RepositoryUrl, builder.RepositoryDestination), 
+                    Times.Once, 
+                    "Must call pipe line create at least once");
         }
 
         [Fact]
-        public void Should_CreateDataAnalysisPipelineWithParameters_When_GivenParameters()
+        public void Should_CreatePipeline_When_GivenPipelineFactory()
         {
-            var repositoryUrl = new RepositoryUrl("url");
-            var repositoryDestination = new RepositoryDestination("destination");
+            var builder = new PipelineFactoryBuilder()
+                .SetRepositoryUrl("url")
+                .SetRepositoryDestination("destination");
 
-            var expected = Mock.Of<DataAnalysisPipeline>();
+            var mockPipelineFactory = builder.Build();
 
-            //var pipelineFactory = Mock.Of<IPipelineFactory>(
-            //    pf => pf.CreateDataAnalysisPipeline(repositoryUrl, repositoryDestination) == )
+            var sut = new RepositoryAnalyser(mockPipelineFactory);
+
+            var result = sut.Analyse(
+                builder.RepositoryUrl, 
+                builder.RepositoryDestination);
+
+            Mock.Get(builder.Pipeline)
+                .Verify(
+                    pl => pl.Create(), 
+                    Times.Once, 
+                    "Must call pipe line create at least once");
         }
     }
 }

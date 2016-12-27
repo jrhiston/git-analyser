@@ -6,25 +6,17 @@ namespace GitAnalyser.Interactor
 {
     internal class RepositoryAnalyser : IRepositoryAnalyser
     {
-        private readonly IFileCopier _fileCopier;
         private readonly IPipelineFactory _pipelineFactory;
 
-        public RepositoryAnalyser(
-            IFileCopier fileCopier,
-            IPipelineFactory pipelineFactory)
+        public RepositoryAnalyser(IPipelineFactory pipelineFactory)
         {
-            if (fileCopier == null)
-                throw new ArgumentNullException(nameof(fileCopier));
-
             if (pipelineFactory == null)
                 throw new ArgumentNullException(nameof(pipelineFactory));
 
-            _fileCopier = fileCopier;
             _pipelineFactory = pipelineFactory;
         }
 
         public IPipelineFactory PipelineFactory => _pipelineFactory;
-        public IFileCopier FileCopier => _fileCopier;
 
         public AnalysisResults Analyse(
             RepositoryUrl repositoryUrl,
