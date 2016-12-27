@@ -2,6 +2,9 @@ version: '0.2.0.{build}'
 configuration:
 - Release
 # new commit
+branches:
+  only:
+    - master
 skip_tags: true
 assembly_info:
   assembly_version: '{version}'
