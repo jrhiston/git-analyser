@@ -4,7 +4,9 @@ using System.Linq;
 
 namespace GitAnalyser.Interactor.Commands
 {
-    public class AnalysisResults : IEnumerable<ICommandResult>, ICommandResult
+    public class AnalysisResults : 
+        IEnumerable<ICommandResult>,
+        ICommandResult
     {
         private readonly IEnumerable<ICommandResult> _elements;
 

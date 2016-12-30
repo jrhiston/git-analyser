@@ -9,6 +9,10 @@ namespace GitAnalyser.Interactor.Pipes
 
         public CompositePipe(params IPipe<T>[] pipes)
         {
+            if (pipes == null) {
+                pipes = new IPipe<T>[1];
+            }
+
             this.pipes = pipes;
         }
 

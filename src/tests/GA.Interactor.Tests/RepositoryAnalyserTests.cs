@@ -71,5 +71,27 @@ namespace GA.Interactor.Tests
                     Times.Once, 
                     "Must call pipe line create at least once");
         }
+
+        [Fact]
+        public void Should_CallPipe_When_PipelineIsCreated()
+        {
+            var mockPipe = new CompositePipe<AnalysisResults>();
+            var mockPipeline = Mock.Of<IPipeline<AnalysisResults>>(
+                pl => pl.Create() == mockPipe
+            );
+
+            var builder = new PipelineFactoryBuilder()
+                .SetPipeline(mockPipeline);
+
+            var mockPipelineFactory = builder.Build();
+
+            var sut = new RepositoryAnalyser(mockPipelineFactory);
+
+            var result = sut.Analyse(builder.RepositoryUrl, builder.RepositoryDestination);
+
+            var expected = mockPipe.Pipe(new AnalysisResults());
+
+            Assert.Equal(expected, result);
+        }
     }
 }
