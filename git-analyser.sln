@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26014.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B8C98EEC-BC8E-40F4-BB53-B1B5572D22D9}"
 EndProject
@@ -10,15 +10,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "git-analyser", "src\git-analyser\git-analyser.xproj", "{1FF17D59-F924-4C98-B46D-94936950E8FA}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GA.Interactor", "src\GA.Interactor\GA.Interactor.xproj", "{CBC2DD6A-B528-49AE-9F11-C9EC746C8025}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7FD1235D-BF22-49E8-96D1-FCC73BF87FA8}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GA.Interactor.Tests", "src\tests\GA.Interactor.Tests\GA.Interactor.Tests.xproj", "{E25A063C-2D33-46A5-A75B-3B3AFE36F11D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "git-analyser", "src\git-analyser\git-analyser.csproj", "{1FF17D59-F924-4C98-B46D-94936950E8FA}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "git-analyser.tests", "src\tests\git-analyser.tests\git-analyser.tests.xproj", "{7E4EB48E-E107-4017-9917-72B68D5E03C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GA.Interactor", "src\GA.Interactor\GA.Interactor.csproj", "{CBC2DD6A-B528-49AE-9F11-C9EC746C8025}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GA.Interactor.Tests", "src\tests\GA.Interactor.Tests\GA.Interactor.Tests.csproj", "{E25A063C-2D33-46A5-A75B-3B3AFE36F11D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "git-analyser.tests", "src\tests\git-analyser.tests\git-analyser.tests.csproj", "{7E4EB48E-E107-4017-9917-72B68D5E03C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,9 +47,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{7FD1235D-BF22-49E8-96D1-FCC73BF87FA8} = {B8C98EEC-BC8E-40F4-BB53-B1B5572D22D9}
 		{1FF17D59-F924-4C98-B46D-94936950E8FA} = {B8C98EEC-BC8E-40F4-BB53-B1B5572D22D9}
 		{CBC2DD6A-B528-49AE-9F11-C9EC746C8025} = {B8C98EEC-BC8E-40F4-BB53-B1B5572D22D9}
-		{7FD1235D-BF22-49E8-96D1-FCC73BF87FA8} = {B8C98EEC-BC8E-40F4-BB53-B1B5572D22D9}
 		{E25A063C-2D33-46A5-A75B-3B3AFE36F11D} = {7FD1235D-BF22-49E8-96D1-FCC73BF87FA8}
 		{7E4EB48E-E107-4017-9917-72B68D5E03C2} = {7FD1235D-BF22-49E8-96D1-FCC73BF87FA8}
 	EndGlobalSection
