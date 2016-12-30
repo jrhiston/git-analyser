@@ -25,7 +25,7 @@ after_build:
 - dotnet pack "src\GA.Interactor" -c %CONFIGURATION% --no-build --version-suffix %LABEL% -o artifacts
 - dotnet publish "src\git-analyser" -c %CONFIGURATION% --no-build --version-suffix %LABEL% -o artifacts\git-analyser
 test_script:
-- dotnet test "src\tests\git-analyser.tests" -c %CONFIGURATION%
+- dotnet test "test\git-analyser.tests" -c %CONFIGURATION%
 artifacts:
 - path: artifacts\**\*.*
 cache:
